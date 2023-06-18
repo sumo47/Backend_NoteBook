@@ -1,0 +1,16 @@
+{
+  "name": "inotebook_backend",
+  "version": "1.0.0",
+  "description": "multiple user can create own notebook and access them",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.3.0",
+    "nodemon": "^2.0.22"
+  }
+}
