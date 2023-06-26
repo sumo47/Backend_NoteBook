@@ -12,6 +12,7 @@ router.get("/", (req,res)=>{
 })
 
 router.post("/createUser", userController.CreateUser )
+router.get("/login", userController.LoginUser)
 
 
 
