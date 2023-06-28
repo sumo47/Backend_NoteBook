@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router() // const router = express.router()
 const { CreateUser, LoginUser, getUser } = require('../controller/UserController')
-const {createNote}  = require('../controller/NoteController')
+const {createNote, getNote}  = require('../controller/NoteController')
 const {auth} = require('../middleware/Authentication')
 
 
@@ -18,6 +18,7 @@ router.get("/login", LoginUser)
 router.get('/getUser',auth, getUser)
 
 router.post('/createNote',auth,  createNote)
+router.get('/getNotes',auth,  getNote)
 
 
 module.exports = router // module.export = router 
