@@ -1,5 +1,6 @@
 const noteModel = require('../models/NotesModel')
 const userModel = require('../models/UserModel')
+const { mongoose } = require('mongoose')
 
 const createNote = async (req, res) => {
     try {
@@ -30,14 +31,68 @@ const getNote = async (req, res) => {
 
         let saveData = await noteModel.find({ user: userId })
 
-        if(saveData.length < 1) return res.status(404).send({status:false, message:"No Notes found"})
+        if (saveData.length < 1) return res.status(404).send({ status: false, message: "No Notes found" })
 
         res.status(200).send({ status: true, message: saveData })
-        
+
     } catch (error) {
         res.status(500).send({ stauts: false, message: error.message })
     }
 }
 
+const updateNote = async (req, res) => {
+    try {
+        const { title, description, tag } = req.body
+        const noteId = req.params.noteId
+        const userId = req.decode.userId
+
+        // console.log(noteId)
+        // console.log(userId)
+        if (!mongoose.isValidObjectId(noteId)) return res.status(400).send({ status: false, message: "No note specified/Wrong noteID" })
+        if (!req.body) return res.status(400).send({ status: false, message: "No data found" })
+
+        const findNote = await noteModel.findById(noteId)
+        if (!findNote) return res.status(400).send({ status: false, message: "No notes found or deleted" })// note exist or not
+
+        const findUser = await userModel.findById(userId)
+        if (!findUser) return res.status(400).send({ status: false, message: "Login with correct credential" }) // user exist ot not
+
+        if (findNote.user.toString() != userId) return res.status(401).send({ status: false, message: "Unauthorized" }) //authorized or not //!why we wrote toString() function
+
+        const saveData = await noteModel.findByIdAndUpdate(noteId, { $set: { title: title, description: description, tag: tag } }, { new: true })
+        res.status(200).send({ status: true, message: saveData })
+
+    } catch (error) {
+        res.status(500).send({ stauts: false, message: error.message })
+
+    }
+}
+
+const deleteNote = async (req, res) => {
+    try {
+        const noteId = req.params.noteId
+        const userId = req.decode.userId
+
+        if (!mongoose.isValidObjectId(noteId)) return res.status(400).send({ status: false, message: "No note specified/Wrong noteID" })
+
+        const findNote = await noteModel.findById(noteId)
+        if (!findNote) return res.status(400).send({ status: false, message: "No notes found or deleted" })// note exist or not
+
+        const findUser = await userModel.findById(userId)
+        if (!findUser) return res.status(400).send({ status: false, message: "Login with correct credential" })
+
+        if (findNote.user.toString() != userId) return res.status(401).send({ status: false, message: "Unauthorized" }) //authorized or not
+
+        await noteModel.findByIdAndDelete(noteId)
+        res.status(200).send({status:true, message:"Note deleted successfully"})
+
+    } catch (error) {
+        res.status(500).send({ stauts: false, message: error.message })
+
+    }
+}
+
 module.exports.createNote = createNote
 module.exports.getNote = getNote
+module.exports.updateNote = updateNote
+module.exports.deleteNote = deleteNote
