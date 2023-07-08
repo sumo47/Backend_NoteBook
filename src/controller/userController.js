@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken')
 const JWT_SECRETKEY = "notebook"
 
 const CreateUser = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     try {
         let data = req.body
 
@@ -37,6 +39,8 @@ const CreateUser = async (req, res) => {
 }
 
 const LoginUser = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     try {
 
         let data = req.body
@@ -63,6 +67,8 @@ const LoginUser = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     try {
         let userId = req.decode.userId
 

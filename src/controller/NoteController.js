@@ -3,6 +3,8 @@ const userModel = require('../models/UserModel')
 const { mongoose } = require('mongoose')
 
 const createNote = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     try {
         let data = req.body
         let userId = req.decode.userId //taking id from auth api
@@ -26,6 +28,7 @@ const createNote = async (req, res) => {
 }
 
 const getNote = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
     try {
         const userId = req.decode.userId
 
@@ -41,6 +44,8 @@ const getNote = async (req, res) => {
 }
 
 const updateNote = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     try {
         const { title, description, tag } = req.body
         const noteId = req.params.noteId
@@ -69,6 +74,8 @@ const updateNote = async (req, res) => {
 }
 
 const deleteNote = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     try {
         const noteId = req.params.noteId
         const userId = req.decode.userId
@@ -84,7 +91,7 @@ const deleteNote = async (req, res) => {
         if (findNote.user.toString() != userId) return res.status(401).send({ status: false, message: "Unauthorized" }) //authorized or not
 
         await noteModel.findByIdAndDelete(noteId)
-        res.status(200).send({status:true, message:"Note deleted successfully"})
+        res.status(200).send({ status: true, message: "Note deleted successfully" })
 
     } catch (error) {
         res.status(500).send({ stauts: false, message: error.message })

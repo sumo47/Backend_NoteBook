@@ -6,6 +6,7 @@ const JWT_SECRETKEY = "notebook"
 const auth = async (req, res, next) => {
     try {
         let token = req.headers['x-api-key']
+        if(!token) return res.status(401).send({ status: false, message: "You are not authorised , token is not available" })
 
         jwt.verify(token, JWT_SECRETKEY, async (err, decode) => {
 
