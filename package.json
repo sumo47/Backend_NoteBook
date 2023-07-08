@@ -4,6 +4,7 @@
   "description": "multiple user can create own notebook and access them",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
