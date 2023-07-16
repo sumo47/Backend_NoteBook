@@ -47,9 +47,13 @@ const updateNote = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
 
     try {
-        const { title, description, tag } = req.body
+        let { title, description, tag } = req.body
         const noteId = req.params.noteId
         const userId = req.decode.userId
+
+        if(!title) return res.status(404).send({status:false, message:"Title Required"})
+        if(!description) return res.status(404).send({status:false, message:"description Required"})
+        if(!tag) {tag = "General"}
 
         // console.log(noteId)
         // console.log(userId)

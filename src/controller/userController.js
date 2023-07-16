@@ -28,7 +28,7 @@ const CreateUser = async (req, res) => {
         const token = jwt.sign({ userId: savedData._id }, JWT_SECRETKEY)
 
         res.setHeader("x-api-key", token); // set token in header (name,token)
-        res.status(201).send({ status: true, message: savedData })
+        res.status(201).send({ status: true, token: token, name:savedData.name })
 
     }
     catch (error) {
@@ -59,7 +59,7 @@ const LoginUser = async (req, res) => {
         let token = jwt.sign({ userId: validateUser._id }, JWT_SECRETKEY)
 
         res.setHeader("x-api-key", token);
-        res.status(200).send({ status: true, message: "Login successFull" })
+        res.status(200).send({ status: true, message: "Login successFull", token:token , name : validateUser.name})
 
     } catch (error) {
         res.status(500).send({ stauts: false, message: error.message })

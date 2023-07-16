@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 })
 
 router.post("/createUser", CreateUser)
-router.get("/login", LoginUser)
+router.post("/login", LoginUser)
 router.get('/getUser',auth, getUser)
 
 router.post('/createNote',auth,  createNote)
