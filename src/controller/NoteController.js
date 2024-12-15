@@ -30,10 +30,20 @@ const createNote = async (req, res) => {
 const getNote = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     try {
+        console.log("getnotecd ")
         const userId = req.decode.userId
+        const { startDate, endDate } = req.query
 
-        let saveData = await noteModel.find({ user: userId })
-
+        // let saveData = await noteModel.find({ user: userId })
+        let saveData = await noteModel.find({
+            user: userId,
+            createdAt: {
+                $gte: startDate ? new Date(startDate) : new Date(0),
+                $lte: endDate ? new Date(endDate) : new Date()
+            }
+        })
+        console.log("date" + startDate, endDate)
+        
         if (saveData.length < 1) return res.status(404).send({ status: false, message: "No Notes found" })
 
         res.status(200).send({ status: true, message: saveData })
@@ -51,9 +61,9 @@ const updateNote = async (req, res) => {
         const noteId = req.params.noteId
         const userId = req.decode.userId
 
-        if(!title) return res.status(404).send({status:false, message:"Title Required"})
-        if(!description) return res.status(404).send({status:false, message:"description Required"})
-        if(!tag) {tag = "General"}
+        if (!title) return res.status(404).send({ status: false, message: "Title Required" })
+        if (!description) return res.status(404).send({ status: false, message: "description Required" })
+        if (!tag) { tag = "General" }
 
         // console.log(noteId)
         // console.log(userId)
