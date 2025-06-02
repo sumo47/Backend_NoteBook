@@ -20,7 +20,7 @@ const auth = async (req, res, next) => {
         })
 
     } catch (error) {
-        res.status(500).send({ stauts: false, message: error.message })
+        res.status(500).send({ status: false, message: error.message })
     }
 }
 

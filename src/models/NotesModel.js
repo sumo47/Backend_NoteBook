@@ -4,12 +4,12 @@ const noteSchema = new mongoose.Schema({
 
     title: {
         type: String,
-        require: true
+        required: true
 
     },
     description: {
         type: String,
-        require: true
+        required: true
     },
     tag: {
         type: String,
@@ -18,6 +18,14 @@ const noteSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
+    },
+    pageId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'page'
+    },
+    isArchived: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true })
 

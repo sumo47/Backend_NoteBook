@@ -33,7 +33,7 @@ const CreateUser = async (req, res) => {
     }
     catch (error) {
         //collecting backend error
-        res.status(500).send({ stauts: false, message: error.message })
+        res.status(500).send({ status: false, message: error.message })
 
     }
 }
@@ -62,7 +62,7 @@ const LoginUser = async (req, res) => {
         res.status(200).send({ status: true, message: "Login successFull", token:token , name : validateUser.name})
 
     } catch (error) {
-        res.status(500).send({ stauts: false, message: error.message })
+        res.status(500).send({ status: false, message: error.message })
     }
 }
 
@@ -78,7 +78,7 @@ const getUser = async (req, res) => {
         let saveData = await userModel.find()
         res.status(200).send({ status: true, message: saveData })
     } catch (error) {
-        res.status(500).send({ stauts: false, message: error.message })
+        res.status(500).send({ status: false, message: error.message })
 
     }
 }
